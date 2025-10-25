@@ -1,0 +1,14 @@
+[package]
+name = "term-dash"
+version = "0.1.0"
+edition = "2021"
+authors = ["Brian Carlson <nitro33@gmail.com>"]
+description = "Terminal dashboard experiments for retro-inspired widgets."
+license = "MIT"
+categories = ["command-line-utilities"]
+readme = "README.md"
+
+[dependencies]
+anyhow = "1.0"
+chrono = { version = "0.4", features = ["clock"] }
+crossterm = "0.27"

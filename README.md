@@ -8,12 +8,17 @@ Active development has not yet begun. Initial tasks include seeding the Rust cra
 ## Getting Started
 1. Install the latest stable Rust toolchain with `rustup`.
 2. Clone the repository and create a feature branch from `protentions` until `main` becomes the default development branch.
-3. Run `cargo build` once the crate lands to verify your environment.
+3. Run `cargo run` to launch the retro clock demo (press `q` to quit).
 
 ## Development Workflow
 - Follow the repository playbook in `AGENTS.md` for module layout, coding standards, and review expectations.
 - Use `cargo fmt`, `cargo clippy --all-targets --all-features`, and `cargo test` before opening a pull request.
 - Capture terminal screenshots at 24×80 or wider when UI output changes.
+
+## Retro Clock Demo
+- Rendered with ASCII pipes, segments, and dots to mimic an 80s digital clock.
+- Resizes automatically to fill the available terminal space; window changes apply at ~200ms intervals.
+- Falls back to a compact readout if the window becomes too small.
 
 ## Contributing
 We welcome issues and pull requests for features, bug fixes, documentation, and tooling. Please:
