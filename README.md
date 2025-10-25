@@ -8,12 +8,27 @@ Active development has not yet begun. Initial tasks include seeding the Rust cra
 ## Getting Started
 1. Install the latest stable Rust toolchain with `rustup`.
 2. Clone the repository and create a feature branch from `protentions` until `main` becomes the default development branch.
-3. Run `cargo build` once the crate lands to verify your environment.
+3. Run `cargo run` to launch the retro clock demo (press `q` to quit).
 
 ## Development Workflow
 - Follow the repository playbook in `AGENTS.md` for module layout, coding standards, and review expectations.
 - Use `cargo fmt`, `cargo clippy --all-targets --all-features`, and `cargo test` before opening a pull request.
 - Capture terminal screenshots at 24×80 or wider when UI output changes.
+
+## Retro Clock Demo
+- Rendered with ASCII pipes, segments, and dots to mimic an 80s digital clock.
+- Resizes automatically to fill the available terminal space; window changes apply roughly every 200ms.
+- Falls back to a compact readout if the window becomes too small.
+
+## Docker Workflow
+1. Install Docker Desktop (or Engine) and Docker Compose.
+2. Build the image with `docker compose build`.
+3. Run commands inside the container, for example:
+   - `docker compose run --rm dev cargo fmt`
+   - `docker compose run --rm dev cargo test`
+   - `docker compose run --rm dev cargo run`
+4. The container mounts the repository at `/workspace`; results sync back to your host.
+5. Override the user and group IDs by exporting `UID`/`GID` before invoking Compose to align container permissions with your local user.
 
 ## Contributing
 We welcome issues and pull requests for features, bug fixes, documentation, and tooling. Please:

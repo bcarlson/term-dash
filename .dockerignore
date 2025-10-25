@@ -1,0 +1,16 @@
+target
+**/target
+.git
+.gitignore
+.github
+.env
+.idea
+.vscode
+Dockerfile
+docker-compose.yml
+README.md
+LICENSE
+AGENTS.md
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+SECURITY.md
