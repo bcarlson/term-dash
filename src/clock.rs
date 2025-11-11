@@ -154,6 +154,7 @@ fn parse_elements(time: &str) -> Vec<Element> {
         .collect()
 }
 
+#[allow(clippy::too_many_arguments)]
 fn draw_digit(
     canvas: &mut [Vec<char>],
     left: usize,
@@ -170,7 +171,6 @@ fn draw_digit(
     let segments = DIGIT_SEGMENTS[value as usize];
 
     let inner_width = width.saturating_sub(seg_thickness * 2);
-    let right = left + width;
     let middle_y = top + seg_thickness + vertical_segment_height;
     let bottom_y = top + seg_thickness * 2 + vertical_segment_height * 2;
 
