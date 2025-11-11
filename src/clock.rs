@@ -1,16 +1,16 @@
 use std::cmp::{max, min};
 
 const DIGIT_SEGMENTS: [[bool; 7]; 10] = [
-    [true, true, true, true, true, true, false],  // 0
+    [true, true, true, true, true, true, false],     // 0
     [false, true, true, false, false, false, false], // 1
-    [true, true, false, true, true, false, true], // 2
-    [true, true, true, true, false, false, true], // 3
-    [false, true, true, false, false, true, true], // 4
-    [true, false, true, true, false, true, true], // 5
-    [true, false, true, true, true, true, true],  // 6
-    [true, true, true, false, false, false, false], // 7
-    [true, true, true, true, true, true, true],   // 8
-    [true, true, true, true, false, true, true],  // 9
+    [true, true, false, true, true, false, true],    // 2
+    [true, true, true, true, false, false, true],    // 3
+    [false, true, true, false, false, true, true],   // 4
+    [true, false, true, true, false, true, true],    // 5
+    [true, false, true, true, true, true, true],     // 6
+    [true, true, true, false, false, false, false],  // 7
+    [true, true, true, true, true, true, true],      // 8
+    [true, true, true, true, false, true, true],     // 9
 ];
 
 pub fn render(time: &str, term_width: u16, term_height: u16) -> Vec<String> {
@@ -24,7 +24,10 @@ pub fn render(time: &str, term_width: u16, term_height: u16) -> Vec<String> {
 
     if should_fallback(width, height) {
         render_fallback(&mut canvas, time);
-        return canvas.into_iter().map(|row| row.into_iter().collect()).collect();
+        return canvas
+            .into_iter()
+            .map(|row| row.into_iter().collect())
+            .collect();
     }
 
     let seg_thickness = max(1, min(height / 12, max(1, width / 96)));
@@ -32,7 +35,10 @@ pub fn render(time: &str, term_width: u16, term_height: u16) -> Vec<String> {
     let colon_width = max(1, seg_thickness);
 
     let elements = parse_elements(time);
-    let digits_count = elements.iter().filter(|el| matches!(el, Element::Digit(_))).count();
+    let digits_count = elements
+        .iter()
+        .filter(|el| matches!(el, Element::Digit(_)))
+        .count();
     let colon_count = elements.len() - digits_count;
 
     let total_spacing = digit_spacing * (elements.len().saturating_sub(1));
@@ -41,29 +47,37 @@ pub fn render(time: &str, term_width: u16, term_height: u16) -> Vec<String> {
 
     if digits_count == 0 {
         render_fallback(&mut canvas, time);
-        return canvas.into_iter().map(|row| row.into_iter().collect()).collect();
+        return canvas
+            .into_iter()
+            .map(|row| row.into_iter().collect())
+            .collect();
     }
 
     let digit_width = available_for_digits / digits_count;
     let min_digit_width = seg_thickness * 2 + max(1, seg_thickness);
     if digit_width < min_digit_width {
         render_fallback(&mut canvas, time);
-        return canvas.into_iter().map(|row| row.into_iter().collect()).collect();
+        return canvas
+            .into_iter()
+            .map(|row| row.into_iter().collect())
+            .collect();
     }
 
     let available_height = height.saturating_sub(seg_thickness * 2);
     let min_digit_height = seg_thickness * 3 + 2;
     if available_height < min_digit_height {
         render_fallback(&mut canvas, time);
-        return canvas.into_iter().map(|row| row.into_iter().collect()).collect();
+        return canvas
+            .into_iter()
+            .map(|row| row.into_iter().collect())
+            .collect();
     }
 
     let vertical_segment_height = max(1, (available_height - seg_thickness * 3) / 2);
     let digit_height = seg_thickness * 3 + vertical_segment_height * 2;
     let top_offset = (height.saturating_sub(digit_height)) / 2;
 
-    let total_clock_width =
-        digits_count * digit_width + colon_count * colon_width + total_spacing;
+    let total_clock_width = digits_count * digit_width + colon_count * colon_width + total_spacing;
     let left_offset = (width.saturating_sub(total_clock_width)) / 2;
 
     let mut cursor_x = left_offset;
@@ -98,7 +112,10 @@ pub fn render(time: &str, term_width: u16, term_height: u16) -> Vec<String> {
         cursor_x += digit_spacing;
     }
 
-    canvas.into_iter().map(|row| row.into_iter().collect()).collect()
+    canvas
+        .into_iter()
+        .map(|row| row.into_iter().collect())
+        .collect()
 }
 
 fn should_fallback(width: usize, height: usize) -> bool {
@@ -137,6 +154,7 @@ fn parse_elements(time: &str) -> Vec<Element> {
         .collect()
 }
 
+#[allow(clippy::too_many_arguments)]
 fn draw_digit(
     canvas: &mut [Vec<char>],
     left: usize,
@@ -153,7 +171,6 @@ fn draw_digit(
     let segments = DIGIT_SEGMENTS[value as usize];
 
     let inner_width = width.saturating_sub(seg_thickness * 2);
-    let right = left + width;
     let middle_y = top + seg_thickness + vertical_segment_height;
     let bottom_y = top + seg_thickness * 2 + vertical_segment_height * 2;
 
@@ -206,14 +223,26 @@ fn draw_digit(
     draw_corners(canvas, left, top, width, height, seg_thickness);
 }
 
-fn draw_corners(canvas: &mut [Vec<char>], left: usize, top: usize, width: usize, height: usize, seg_thickness: usize) {
+fn draw_corners(
+    canvas: &mut [Vec<char>],
+    left: usize,
+    top: usize,
+    width: usize,
+    height: usize,
+    seg_thickness: usize,
+) {
     let right = left + width;
     let bottom = top + height;
     for dy in 0..seg_thickness {
         mark(canvas, left, top + dy, '+');
         mark(canvas, right.saturating_sub(1), top + dy, '+');
         if bottom > dy {
-            mark(canvas, left, bottom.saturating_sub(1).saturating_sub(dy), '+');
+            mark(
+                canvas,
+                left,
+                bottom.saturating_sub(1).saturating_sub(dy),
+                '+',
+            );
             mark(
                 canvas,
                 right.saturating_sub(1),
@@ -264,13 +293,7 @@ fn draw_horizontal(
     }
 }
 
-fn draw_vertical(
-    canvas: &mut [Vec<char>],
-    x: usize,
-    top: usize,
-    height: usize,
-    thickness: usize,
-) {
+fn draw_vertical(canvas: &mut [Vec<char>], x: usize, top: usize, height: usize, thickness: usize) {
     for dx in 0..thickness {
         let col = x + dx;
         for y in top..top + height {

@@ -7,7 +7,8 @@ use anyhow::Result;
 use chrono::Local;
 use crossterm::event::{self, Event, KeyCode};
 use crossterm::terminal::{
-    disable_raw_mode, enable_raw_mode, size, Clear, ClearType, EnterAlternateScreen, LeaveAlternateScreen,
+    disable_raw_mode, enable_raw_mode, size, Clear, ClearType, EnterAlternateScreen,
+    LeaveAlternateScreen,
 };
 use crossterm::{execute, queue};
 
